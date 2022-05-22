@@ -12,12 +12,11 @@ module.exports = app =>
         });
         app.post("/api/notes", function(req, res) 
         {
-            let newNote = req.body;
             req.body.id = notes.length.toString()
-            notes.push(newNote);
+            notes.push(req.body);
             updateDb();
-            console.log(newNote.id);
-            return console.log("Added new note: " + newNote.title);
+            console.log(req.body.id);
+            return console.log("Added new note: " + req.body.title);
         });
         app.get("/api/notes/:id", function(req, res) 
         {
