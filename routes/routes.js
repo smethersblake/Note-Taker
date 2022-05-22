@@ -13,8 +13,10 @@ module.exports = app =>
         app.post("/api/notes", function(req, res) 
         {
             let newNote = req.body;
+            req.body.id = notes.length.toString()
             notes.push(newNote);
             updateDb();
+            console.log(newNote.id);
             return console.log("Added new note: " + newNote.title);
         });
         app.get("/api/notes/:id", function(req, res) 
@@ -29,6 +31,11 @@ module.exports = app =>
         app.get('*', function(req,res) 
         {
             res.sendFile(path.join(__dirname, "../public/index.html"));
+        });
+        app.delete("/api/notes/:id", function(req, res) {
+            notes.splice(req.params.id, 1);
+            updateDb();
+            console.log("Deleted note with id "+req.params.id);
         });
         function updateDb() 
         {
